@@ -4,6 +4,8 @@ A tilt, glare, and shadow hover effect for React 19 and Next.js, built to
 [HeroUI v3](https://heroui.com) conventions: compound parts, `tailwind-variants` slots, BEM
 classes, and theme tokens.
 
+**[Demo and documentation](https://timwickstrom.com/projects/holo-card-tilt)**
+
 - **No renders while animating.** Pointer movement is written to CSS variables from a single
   `requestAnimationFrame` loop. React renders once, on mount.
 - **Server-rendered at rest.** The markup is identical on the server and the client, with no

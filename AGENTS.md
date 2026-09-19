@@ -170,3 +170,6 @@ A manual release is `pnpm --filter holo-card-tilt publish --access public`. `pre
 Vercel project with Root Directory `apps/docs`, Install Command `pnpm install`, Build Command
 `cd ../.. && pnpm build && pnpm --filter docs build`, and the `HEROUI_AUTH_TOKEN` environment
 variable.
+
+The site is published at https://timwickstrom.com/projects/holo-card-tilt. `DOCS_BASE_PATH` sets the
+Next.js `basePath`; it is `/projects/holo-card-tilt` in production and unset locally.

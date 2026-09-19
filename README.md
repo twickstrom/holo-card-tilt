@@ -3,6 +3,8 @@
 A tilt, glare, and shadow hover effect for React 19 and Next.js 16, built to
 [HeroUI v3](https://heroui.com) conventions.
 
+**[Demo and documentation](https://timwickstrom.com/projects/holo-card-tilt)**
+
 ```tsx
 import {HoloCardTilt} from "holo-card-tilt";
 
@@ -54,6 +56,10 @@ Vercel project settings:
 | Root Directory  | `apps/docs`                                          |
 | Build Command   | `cd ../.. && pnpm build && pnpm --filter docs build` |
 | Install Command | `pnpm install`                                       |
+
+The site is published at https://timwickstrom.com/projects/holo-card-tilt. Set the
+`DOCS_BASE_PATH` environment variable to `/projects/holo-card-tilt` so the app serves from that path,
+and route that path to the deployment from the host of `timwickstrom.com`.
 
 ### Releasing
 
