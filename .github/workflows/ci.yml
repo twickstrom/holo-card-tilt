@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  library:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      # The docs app depends on the licensed @heroui-pro/react package, so CI installs
+      # only the library and the demo, which build from public packages.
+      - run: pnpm install --frozen-lockfile --filter holo-card-tilt... --filter demo...
+      - run: pnpm --filter holo-card-tilt typecheck
+      - run: pnpm --filter holo-card-tilt test
+      - run: pnpm --filter holo-card-tilt build
+      - run: pnpm --filter holo-card-tilt exec publint
+      - run: pnpm --filter demo build

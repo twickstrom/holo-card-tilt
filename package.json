@@ -1,0 +1,25 @@
+{
+  "name": "holo-card-tilt-monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.9"
+  },
+  "scripts": {
+    "build": "pnpm --filter holo-card-tilt build",
+    "build:all": "pnpm build && pnpm --filter \"./apps/*\" build",
+    "dev": "pnpm --filter holo-card-tilt dev",
+    "dev:demo": "pnpm build && pnpm --parallel --filter holo-card-tilt --filter demo dev",
+    "dev:docs": "pnpm build && pnpm --parallel --filter holo-card-tilt --filter docs dev",
+    "test": "pnpm --filter holo-card-tilt test",
+    "typecheck": "pnpm -r typecheck",
+    "format": "prettier --write .",
+    "lint": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.7.1",
+    "typescript": "^5.9.3"
+  }
+}

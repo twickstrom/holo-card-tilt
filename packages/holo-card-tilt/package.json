@@ -1,0 +1,88 @@
+{
+  "name": "holo-card-tilt",
+  "version": "0.1.0",
+  "description": "A tilt, glare, and shadow hover effect for React 19 and Next.js, built to HeroUI v3 conventions: compound parts, variants, and theme tokens.",
+  "license": "MIT",
+  "author": "Tim Wickstrom <tim@wickstrom.me>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twickstrom/holo-card-tilt.git",
+    "directory": "packages/holo-card-tilt"
+  },
+  "homepage": "https://github.com/twickstrom/holo-card-tilt#readme",
+  "bugs": {
+    "url": "https://github.com/twickstrom/holo-card-tilt/issues"
+  },
+  "keywords": [
+    "react",
+    "nextjs",
+    "heroui",
+    "hover",
+    "tilt",
+    "glare",
+    "shadow",
+    "spring",
+    "3d",
+    "card",
+    "holographic",
+    "tailwindcss",
+    "tailwind-variants"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "style": "./dist/holo-card-tilt.css",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./css": {
+      "style": "./dist/holo-card-tilt.css",
+      "default": "./dist/holo-card-tilt.css"
+    },
+    "./holo-card-tilt.css": "./dist/holo-card-tilt.css",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json && cp src/holo-card-tilt.css dist/holo-card-tilt.css",
+    "dev": "pnpm build && tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "prepack": "cp ../../LICENSE ../../NOTICE . && pnpm build && publint",
+    "postpack": "rm -f LICENSE NOTICE"
+  },
+  "engines": {
+    "node": ">=20.9"
+  },
+  "dependencies": {
+    "tailwind-variants": "^3.3.1"
+  },
+  "peerDependencies": {
+    "@heroui/styles": ">=3.0.0",
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "devDependencies": {
+    "@heroui/styles": "^3.2.6",
+    "@types/node": "^22",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "jsdom": "^27.0.0",
+    "publint": "^0.3.14",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

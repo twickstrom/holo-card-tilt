@@ -1,0 +1,274 @@
+/*
+ * SPDX-License-Identifier: MIT
+ */
+
+/* -------------------------------------------------------------------------------------------------
+ * HoloCardTilt Component Styles
+ * Block: holo-card-tilt
+ * A wrapper that tilts its content toward the pointer, with a glare and shadow that follow it.
+ * -----------------------------------------------------------------------------------------------*/
+
+@layer components {
+  /**
+   * Element: base — perspective wrapper, tracks the pointer and owns every variable
+   */
+  .holo-card-tilt {
+    position: relative;
+    perspective: var(--holo-card-tilt-perspective, 600px);
+    /* Horizontal drags tilt the element; vertical drags and pinches still scroll the page. */
+    touch-action: pan-y pinch-zoom;
+
+    /* Runtime values, written by the component while the pointer moves */
+    --holo-card-tilt-x: 0.5;
+    --holo-card-tilt-y: 0.5;
+    --holo-card-tilt-opacity: 0;
+    --holo-card-tilt-scale: 1;
+    --holo-card-tilt-angle: 0deg;
+    --holo-card-tilt-from-center: 0px;
+    --holo-card-tilt-at-edge: 0;
+
+    /* Derived values, available to custom gradients and shadows */
+    --holo-card-tilt-gradient-x: calc(var(--holo-card-tilt-x) * 100%);
+    --holo-card-tilt-gradient-y: calc(var(--holo-card-tilt-y) * 100%);
+    --holo-card-tilt-shadow-x: calc(var(--holo-card-tilt-x) * 2 - 1);
+    --holo-card-tilt-shadow-y: calc(var(--holo-card-tilt-y) * 2 - 1);
+    --holo-card-tilt-rotate-x: calc(
+      (var(--holo-card-tilt-y) * 2 - 1) * var(--holo-card-tilt-rotation, 10deg) *
+        var(--holo-card-tilt-factor-y, 1)
+    );
+    --holo-card-tilt-rotate-y: calc(
+      (1 - var(--holo-card-tilt-x) * 2) * var(--holo-card-tilt-rotation, 10deg) *
+        var(--holo-card-tilt-factor-x, 1)
+    );
+  }
+
+  /**
+   * Element: rotator — the 3D tilt layer
+   */
+  .holo-card-tilt__rotator {
+    position: relative;
+    border-radius: inherit;
+    transform: scale(var(--holo-card-tilt-scale)) rotateX(var(--holo-card-tilt-rotate-x))
+      rotateY(var(--holo-card-tilt-rotate-y)) translate3d(0, 0, 0.01px);
+    transform-style: preserve-3d;
+    box-shadow: var(--holo-card-tilt-custom-shadow, var(--holo-card-tilt-shadow, none));
+  }
+
+  .holo-card-tilt[data-active="true"] > .holo-card-tilt__rotator {
+    will-change: transform;
+  }
+
+  /**
+   * Element: glare — pointer-tracked light, blended over the content
+   */
+  .holo-card-tilt__glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image: var(--holo-card-tilt-custom-gradient, var(--holo-card-tilt-gradient));
+    background-size: var(--holo-card-tilt-gradient-size, auto);
+    background-position: var(--holo-card-tilt-gradient-position, center);
+    background-repeat: no-repeat;
+    mix-blend-mode: var(--holo-card-tilt-blend-mode, overlay);
+    opacity: var(--holo-card-tilt-opacity);
+    mask-image: var(--holo-card-tilt-glare-mask, none);
+    mask-size: cover;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-mode: var(--holo-card-tilt-glare-mask-mode, match-source);
+    mask-composite: var(--holo-card-tilt-glare-mask-composite, add);
+  }
+
+  /**
+   * Element: layer — content that lifts toward the viewer while active
+   */
+  .holo-card-tilt__layer {
+    transform: translateZ(
+      calc(var(--holo-card-tilt-layer-depth, 24px) * var(--holo-card-tilt-opacity))
+    );
+  }
+
+  /* -----------------------------------------------------------------------------------------------
+   * Modifier - variant
+   * ---------------------------------------------------------------------------------------------*/
+
+  /* Copyright (c) 2026 Simeydotme, MIT License. */
+  /* A broad radial glare that brightens under the pointer and deepens the far corner. */
+  .holo-card-tilt--glare {
+    --holo-card-tilt-gradient: radial-gradient(
+      farthest-corner circle at var(--holo-card-tilt-gradient-x) var(--holo-card-tilt-gradient-y),
+      oklch(
+          from var(--holo-card-tilt-color) 0.96 calc(c * 0.5) h /
+            calc(var(--holo-card-tilt-glare-intensity, 1) * 0.66)
+        )
+        8%,
+      oklch(
+          from var(--holo-card-tilt-color) 0.9 c h /
+            calc(var(--holo-card-tilt-glare-intensity, 1) * 0.5)
+        )
+        28%,
+      oklch(
+          from var(--holo-card-tilt-color) 0.16 calc(c * 0.5) h /
+            calc(var(--holo-card-tilt-glare-intensity, 1) * 0.25)
+        )
+        90%
+    );
+  }
+
+  /* A tight highlight that leaves the rest of the surface untouched. */
+  .holo-card-tilt--spotlight {
+    --holo-card-tilt-gradient: radial-gradient(
+      circle at var(--holo-card-tilt-gradient-x) var(--holo-card-tilt-gradient-y),
+      oklch(
+          from var(--holo-card-tilt-color) 0.98 calc(c * 0.4) h /
+            calc(var(--holo-card-tilt-glare-intensity, 1) * 0.8)
+        )
+        0%,
+      oklch(
+          from var(--holo-card-tilt-color) 0.9 c h /
+            calc(var(--holo-card-tilt-glare-intensity, 1) * 0.3)
+        )
+        22%,
+      transparent 55%
+    );
+  }
+
+  /* A diagonal band of light that sweeps across with the pointer. */
+  .holo-card-tilt--sheen {
+    --holo-card-tilt-gradient: linear-gradient(
+      115deg,
+      transparent 30%,
+      oklch(
+          from var(--holo-card-tilt-color) 0.9 c h /
+            calc(var(--holo-card-tilt-glare-intensity, 1) * 0.35)
+        )
+        44%,
+      oklch(
+          from var(--holo-card-tilt-color) 0.98 calc(c * 0.4) h /
+            calc(var(--holo-card-tilt-glare-intensity, 1) * 0.8)
+        )
+        50%,
+      oklch(
+          from var(--holo-card-tilt-color) 0.9 c h /
+            calc(var(--holo-card-tilt-glare-intensity, 1) * 0.35)
+        )
+        56%,
+      transparent 70%
+    );
+    --holo-card-tilt-gradient-size: 300% 300%;
+    --holo-card-tilt-gradient-position: calc(75% - var(--holo-card-tilt-x) * 50%)
+      calc(75% - var(--holo-card-tilt-y) * 50%);
+  }
+
+  /* -----------------------------------------------------------------------------------------------
+   * Modifier - color
+   * ---------------------------------------------------------------------------------------------*/
+
+  .holo-card-tilt--default {
+    --holo-card-tilt-color: oklch(0.95 0.02 var(--holo-card-tilt-glare-hue, 270));
+  }
+
+  /* A neutral shadow has little to darken on a dark background, so it is made denser there. */
+  :is(.dark, [data-theme="dark"], [data-theme$="-dark"]) .holo-card-tilt--default {
+    --holo-card-tilt-shadow-opacity: 0.5;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light, [data-theme="light"]) .holo-card-tilt--default {
+      --holo-card-tilt-shadow-opacity: 0.5;
+    }
+  }
+
+  .holo-card-tilt--accent {
+    --holo-card-tilt-color: var(--accent);
+    --holo-card-tilt-shadow-color: var(--accent);
+    --holo-card-tilt-shadow-opacity: 0.3;
+  }
+
+  .holo-card-tilt--success {
+    --holo-card-tilt-color: var(--success);
+    --holo-card-tilt-shadow-color: var(--success);
+    --holo-card-tilt-shadow-opacity: 0.3;
+  }
+
+  .holo-card-tilt--warning {
+    --holo-card-tilt-color: var(--warning);
+    --holo-card-tilt-shadow-color: var(--warning);
+    --holo-card-tilt-shadow-opacity: 0.3;
+  }
+
+  .holo-card-tilt--danger {
+    --holo-card-tilt-color: var(--danger);
+    --holo-card-tilt-shadow-color: var(--danger);
+    --holo-card-tilt-shadow-opacity: 0.3;
+  }
+
+  /* -----------------------------------------------------------------------------------------------
+   * Modifier - tilt
+   * ---------------------------------------------------------------------------------------------*/
+
+  .holo-card-tilt--tilt-none {
+    --holo-card-tilt-rotation: 0deg;
+  }
+
+  .holo-card-tilt--tilt-sm {
+    --holo-card-tilt-rotation: 5deg;
+  }
+
+  .holo-card-tilt--tilt-md {
+    --holo-card-tilt-rotation: 10deg;
+  }
+
+  .holo-card-tilt--tilt-lg {
+    --holo-card-tilt-rotation: 18deg;
+  }
+
+  /* -----------------------------------------------------------------------------------------------
+   * Modifier - shadow
+   * ---------------------------------------------------------------------------------------------*/
+
+  /* Copyright (c) 2026 Simeydotme, MIT License. */
+  /* Two stacked shadows that shift with the pointer and fade in with the effect. */
+  .holo-card-tilt--shadow {
+    --holo-card-tilt-shadow-blur-1: calc(var(--holo-card-tilt-shadow-blur, 16) * 1px);
+    --holo-card-tilt-shadow-blur-2: calc(var(--holo-card-tilt-shadow-blur-1) / 2);
+    --holo-card-tilt-shadow-alpha: calc(
+      var(--holo-card-tilt-opacity) * var(--holo-card-tilt-shadow-opacity, 0.125) *
+        var(--holo-card-tilt-shadow-intensity, 1)
+    );
+    --holo-card-tilt-shadow:
+      calc(var(--holo-card-tilt-shadow-x) * var(--holo-card-tilt-shadow-blur-1))
+        calc(
+          var(--holo-card-tilt-shadow-y) * var(--holo-card-tilt-shadow-blur-1) / 2 +
+            var(--holo-card-tilt-shadow-blur-1) / 4
+        )
+        calc(var(--holo-card-tilt-shadow-blur-1) / 2)
+        calc(var(--holo-card-tilt-shadow-blur-1) * -0.25)
+        oklch(
+          from var(--holo-card-tilt-shadow-color, black) l c h / var(--holo-card-tilt-shadow-alpha)
+        ),
+      calc(var(--holo-card-tilt-shadow-x) * var(--holo-card-tilt-shadow-blur-2))
+        calc(
+          var(--holo-card-tilt-shadow-y) * var(--holo-card-tilt-shadow-blur-2) / 2 +
+            var(--holo-card-tilt-shadow-blur-2) / 4
+        )
+        calc(var(--holo-card-tilt-shadow-blur-2) / 2)
+        calc(var(--holo-card-tilt-shadow-blur-2) * -0.25)
+        oklch(
+          from var(--holo-card-tilt-shadow-color, black) l c h / var(--holo-card-tilt-shadow-alpha)
+        );
+  }
+
+  .holo-card-tilt--shadow-sm {
+    --holo-card-tilt-shadow-blur: 8;
+  }
+
+  .holo-card-tilt--shadow-md {
+    --holo-card-tilt-shadow-blur: 16;
+  }
+
+  .holo-card-tilt--shadow-lg {
+    --holo-card-tilt-shadow-blur: 32;
+  }
+}
