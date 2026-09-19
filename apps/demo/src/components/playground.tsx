@@ -82,6 +82,7 @@ export function Playground() {
   const [stiffness, setStiffness] = useState(0.2);
   const [damping, setDamping] = useState(0.8);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [shouldBlockScroll, setShouldBlockScroll] = useState(true);
   const [isActive, setIsActive] = useState(false);
 
   const code = [
@@ -96,6 +97,7 @@ export function Playground() {
     shadow !== "none" && shadowIntensity !== 1 && `  shadowIntensity={${shadowIntensity}}`,
     (stiffness !== 0.2 || damping !== 0.8) &&
       `  springOptions={{stiffness: ${stiffness}, damping: ${damping}}}`,
+    !shouldBlockScroll && "  shouldBlockScroll={false}",
     isDisabled && "  isDisabled",
     ">",
     "  <HoloCardTilt.Rotator>",
@@ -127,6 +129,7 @@ export function Playground() {
             scaleFactor={scaleFactor}
             shadow={shadow}
             shadowIntensity={shadowIntensity}
+            shouldBlockScroll={shouldBlockScroll}
             springOptions={{damping, stiffness}}
             tilt={tilt}
             variant={variant}
@@ -199,6 +202,14 @@ export function Playground() {
           value={damping}
           onChange={setDamping}
         />
+        <Switch isSelected={shouldBlockScroll} onChange={setShouldBlockScroll}>
+          <Switch.Content className="w-full justify-between">
+            Block scroll on touch
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+          </Switch.Content>
+        </Switch>
         <Switch isSelected={isDisabled} onChange={setIsDisabled}>
           <Switch.Content className="w-full justify-between">
             Disabled

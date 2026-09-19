@@ -42,12 +42,18 @@ export const holoCardTiltVariants = tv({
       md: {base: "holo-card-tilt--shadow holo-card-tilt--shadow-md"},
       lg: {base: "holo-card-tilt--shadow holo-card-tilt--shadow-lg"},
     },
+    /** Whether a touch on the element holds the page still, so a drag tilts instead of scrolling. */
+    shouldBlockScroll: {
+      true: {base: "holo-card-tilt--block-scroll"},
+      false: {},
+    },
   },
   defaultVariants: {
     variant: "glare",
     color: "default",
     tilt: "md",
     shadow: "none",
+    shouldBlockScroll: true,
   },
 });
 

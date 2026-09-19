@@ -1,6 +1,6 @@
 {
   "name": "holo-card-tilt",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A tilt, glare, and shadow hover effect for React 19 and Next.js, built to HeroUI v3 conventions: compound parts, variants, and theme tokens.",
   "license": "MIT",
   "author": "Tim Wickstrom <tim@wickstrom.me>",

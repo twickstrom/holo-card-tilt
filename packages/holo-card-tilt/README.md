@@ -23,7 +23,10 @@ classes, and theme tokens.
 - **Themed.** `color="accent"` tints the glare and shadow from your HeroUI theme, in light mode,
   dark mode, and custom design systems.
 - **Accessible motion.** Follows HeroUI's motion rules: flat under `data-reduce-motion="true"` or
-  the OS reduced-motion setting, and `data-reduce-motion="false"` opts back in. On touch screens, horizontal drags tilt and vertical drags scroll.
+  the OS reduced-motion setting, and `data-reduce-motion="false"` opts back in.
+- **Touch-ready.** A touch on the element holds the page still, so a drag tilts it instead of
+  scrolling. Pinch-zoom still works, and `shouldBlockScroll={false}` hands vertical drags back to
+  the page.
 - **Small.** One runtime dependency, `tailwind-variants`, which HeroUI already installs.
 
 ## Requirements
@@ -126,25 +129,26 @@ const myTiltVariants = tv({
 
 ### HoloCardTilt
 
-| Prop                 | Type                          | Default                          | Description                                                               |
-| -------------------- | ----------------------------- | -------------------------------- | ------------------------------------------------------------------------- |
-| `tiltFactor`         | `number`                      | `1`                              | Multiplies the horizontal rotation set by `tilt`.                         |
-| `tiltFactorY`        | `number`                      | `tiltFactor`                     | Multiplies the vertical rotation.                                         |
-| `scaleFactor`        | `number`                      | `1`                              | Scale applied while active.                                               |
-| `springOptions`      | `SpringOptions`               | `{stiffness: 0.2, damping: 0.8}` | Physics for the glare, shadow, and scale.                                 |
-| `tiltSpringOptions`  | `SpringOptions`               | `springOptions`                  | Physics for the rotation.                                                 |
-| `enterDelay`         | `number`                      | `0`                              | Milliseconds the pointer must stay inside before the effect starts.       |
-| `exitDelay`          | `number`                      | `200`                            | Milliseconds after the pointer leaves before returning to rest.           |
-| `isDisabled`         | `boolean`                     | `false`                          | Disables pointer tracking, leaving the element flat and unlit.            |
-| `onActiveChange`     | `(isActive: boolean) => void` | -                                | Called when the element becomes active or returns to rest.                |
-| `glareIntensity`     | `number`                      | `1`                              | Glare strength. Sets `--holo-card-tilt-glare-intensity`.                  |
-| `glareHue`           | `number`                      | `270`                            | Glare hue when `color` is `"default"`. Sets `--holo-card-tilt-glare-hue`. |
-| `blendMode`          | `mix-blend-mode`              | `"overlay"`                      | Sets `--holo-card-tilt-blend-mode`.                                       |
-| `shadowBlur`         | `number`                      | -                                | Shadow blur in pixels. Overrides the `shadow` size.                       |
-| `shadowIntensity`    | `number`                      | `1`                              | Shadow strength. Sets `--holo-card-tilt-shadow-intensity`.                |
-| `glareMask`          | `string`                      | -                                | CSS `mask-image` confining the glare.                                     |
-| `glareMaskMode`      | `string`                      | `"match-source"`                 | CSS `mask-mode` for `glareMask`.                                          |
-| `glareMaskComposite` | `string`                      | `"add"`                          | CSS `mask-composite` for `glareMask`.                                     |
+| Prop                 | Type                          | Default                          | Description                                                                                   |
+| -------------------- | ----------------------------- | -------------------------------- | --------------------------------------------------------------------------------------------- |
+| `tiltFactor`         | `number`                      | `1`                              | Multiplies the horizontal rotation set by `tilt`.                                             |
+| `tiltFactorY`        | `number`                      | `tiltFactor`                     | Multiplies the vertical rotation.                                                             |
+| `scaleFactor`        | `number`                      | `1`                              | Scale applied while active.                                                                   |
+| `springOptions`      | `SpringOptions`               | `{stiffness: 0.2, damping: 0.8}` | Physics for the glare, shadow, and scale.                                                     |
+| `tiltSpringOptions`  | `SpringOptions`               | `springOptions`                  | Physics for the rotation.                                                                     |
+| `enterDelay`         | `number`                      | `0`                              | Milliseconds the pointer must stay inside before the effect starts.                           |
+| `exitDelay`          | `number`                      | `200`                            | Milliseconds after the pointer leaves before returning to rest.                               |
+| `isDisabled`         | `boolean`                     | `false`                          | Disables pointer tracking, leaving the element flat and unlit.                                |
+| `shouldBlockScroll`  | `boolean`                     | `true`                           | Whether a touch on the element holds the page still, so a drag tilts it instead of scrolling. |
+| `onActiveChange`     | `(isActive: boolean) => void` | -                                | Called when the element becomes active or returns to rest.                                    |
+| `glareIntensity`     | `number`                      | `1`                              | Glare strength. Sets `--holo-card-tilt-glare-intensity`.                                      |
+| `glareHue`           | `number`                      | `270`                            | Glare hue when `color` is `"default"`. Sets `--holo-card-tilt-glare-hue`.                     |
+| `blendMode`          | `mix-blend-mode`              | `"overlay"`                      | Sets `--holo-card-tilt-blend-mode`.                                                           |
+| `shadowBlur`         | `number`                      | -                                | Shadow blur in pixels. Overrides the `shadow` size.                                           |
+| `shadowIntensity`    | `number`                      | `1`                              | Shadow strength. Sets `--holo-card-tilt-shadow-intensity`.                                    |
+| `glareMask`          | `string`                      | -                                | CSS `mask-image` confining the glare.                                                         |
+| `glareMaskMode`      | `string`                      | `"match-source"`                 | CSS `mask-mode` for `glareMask`.                                                              |
+| `glareMaskComposite` | `string`                      | `"add"`                          | CSS `mask-composite` for `glareMask`.                                                         |
 
 Also supports all native `div` attributes.
 
@@ -173,6 +177,7 @@ flattens the layer.
 - `.holo-card-tilt--{default|accent|success|warning|danger}` — color
 - `.holo-card-tilt--tilt-{none|sm|md|lg}` — tilt
 - `.holo-card-tilt--shadow-{sm|md|lg}` — shadow
+- `.holo-card-tilt--block-scroll` — holds the page still while the element is touched
 
 Styles live in `@layer components`, so Tailwind utilities passed through `className` override them.
 

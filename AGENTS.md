@@ -117,6 +117,9 @@ Changes must preserve these.
   `.holo-card__*`, and `--holo-card-*`. This package uses `.holo-card-tilt` and
   `--holo-card-tilt-*` so both work in one app. Never introduce a bare `.holo-card` class or a
   `--holo-card-<name>` variable.
+- **Touch scrolling is controlled in CSS.** `shouldBlockScroll` maps to `.holo-card-tilt--block-scroll`,
+  which sets `touch-action`. The browser reads `touch-action` when a gesture begins, so a pointer
+  listener cannot do this. Scrolling returns when the element is disabled or motion is reduced.
 - **Motion preferences follow HeroUI.** The nearest `data-reduce-motion` attribute decides
   (`"true"` off, `"false"` on); the OS setting applies only when no ancestor sets one.
 - **One runtime dependency:** `tailwind-variants`. Peers: `react`, `react-dom`, `@heroui/styles`.

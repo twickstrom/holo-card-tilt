@@ -208,4 +208,22 @@ describe("HoloCardTilt", () => {
     expect(element.hasAttribute("data-active")).toBe(false);
     vi.unstubAllGlobals();
   });
+
+  it("blocks page scroll on touch by default and can opt out", async () => {
+    const blocking = await mount(
+      <HoloCardTilt>
+        <HoloCardTilt.Rotator />
+      </HoloCardTilt>,
+    );
+
+    expect(blocking.classList.contains("holo-card-tilt--block-scroll")).toBe(true);
+
+    const scrolling = await mount(
+      <HoloCardTilt shouldBlockScroll={false}>
+        <HoloCardTilt.Rotator />
+      </HoloCardTilt>,
+    );
+
+    expect(scrolling.classList.contains("holo-card-tilt--block-scroll")).toBe(false);
+  });
 });

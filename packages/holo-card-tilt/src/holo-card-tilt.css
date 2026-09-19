@@ -15,7 +15,7 @@
   .holo-card-tilt {
     position: relative;
     perspective: var(--holo-card-tilt-perspective, 600px);
-    /* Horizontal drags tilt the element; vertical drags and pinches still scroll the page. */
+    /* Without scroll blocking, horizontal drags tilt and vertical drags still scroll the page. */
     touch-action: pan-y pinch-zoom;
 
     /* Runtime values, written by the component while the pointer moves */
@@ -40,6 +40,26 @@
       (1 - var(--holo-card-tilt-x) * 2) * var(--holo-card-tilt-rotation, 10deg) *
         var(--holo-card-tilt-factor-x, 1)
     );
+  }
+
+  /**
+   * Modifier - block scroll
+   * A touch that starts on the element never scrolls the page, so the pointer stays with the tilt.
+   * `touch-action` is read when the gesture begins, which is why this is CSS and not a listener.
+   * Scrolling comes back whenever the effect cannot run.
+   */
+  .holo-card-tilt--block-scroll:not([data-disabled="true"]) {
+    touch-action: pinch-zoom;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .holo-card-tilt--block-scroll:not([data-reduce-motion="false"] *) {
+      touch-action: pan-y pinch-zoom;
+    }
+  }
+
+  [data-reduce-motion="true"] .holo-card-tilt--block-scroll {
+    touch-action: pan-y pinch-zoom;
   }
 
   /**

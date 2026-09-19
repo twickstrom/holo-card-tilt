@@ -65,6 +65,13 @@ interface HoloCardTiltRootProps
   tilt?: HoloCardTiltVariants["tilt"];
   /** Depth of the shadow that shifts with the pointer. `true` is `"md"`. @default "none" */
   shadow?: HoloCardTiltVariants["shadow"] | boolean;
+  /**
+   * Whether a touch on the element holds the page still, so a drag tilts it instead of scrolling.
+   * Pinch-zoom still works. Set to `false` for elements in a scrolling feed, where vertical drags
+   * should keep scrolling the page.
+   * @default true
+   */
+  shouldBlockScroll?: boolean;
   /** Multiplies the horizontal rotation set by `tilt`. @default 1 */
   tiltFactor?: number;
   /** Multiplies the vertical rotation set by `tilt`. Defaults to `tiltFactor`. */
@@ -110,6 +117,7 @@ const HoloCardTiltRoot = ({
   shadow = "none",
   shadowBlur,
   shadowIntensity,
+  shouldBlockScroll,
   springOptions,
   style,
   tilt,
@@ -122,8 +130,8 @@ const HoloCardTiltRoot = ({
   const resolvedShadow = shadow === true ? "md" : shadow === false ? "none" : shadow;
 
   const slots = useMemo(
-    () => holoCardTiltVariants({color, shadow: resolvedShadow, tilt, variant}),
-    [color, resolvedShadow, tilt, variant],
+    () => holoCardTiltVariants({color, shadow: resolvedShadow, tilt, variant, shouldBlockScroll}),
+    [color, resolvedShadow, tilt, variant, shouldBlockScroll],
   );
   const contextValue = useMemo(() => ({slots}), [slots]);
 
