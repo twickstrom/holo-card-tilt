@@ -61,6 +61,15 @@ The site is published at https://timwickstrom.com/projects/holo-card-tilt. Set t
 `DOCS_BASE_PATH` environment variable to `/projects/holo-card-tilt` so the app serves from that path,
 and route that path to the deployment from the host of `timwickstrom.com`.
 
+For a host with no Node.js server, build a static site instead:
+
+```bash
+pnpm build
+DOCS_EXPORT=1 DOCS_BASE_PATH=/projects/holo-card-tilt pnpm --filter docs build
+```
+
+The output is `apps/docs/out`. Serve its contents from `/projects/holo-card-tilt/`.
+
 ### Releasing
 
 Bump the version in `packages/holo-card-tilt/package.json`, then push a `v*` tag. The Release

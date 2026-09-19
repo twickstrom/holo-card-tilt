@@ -172,4 +172,6 @@ Vercel project with Root Directory `apps/docs`, Install Command `pnpm install`, 
 variable.
 
 The site is published at https://timwickstrom.com/projects/holo-card-tilt. `DOCS_BASE_PATH` sets the
-Next.js `basePath`; it is `/projects/holo-card-tilt` in production and unset locally.
+Next.js `basePath`; it is `/projects/holo-card-tilt` in production and unset locally. `DOCS_EXPORT=1`
+switches the build to a static export in `apps/docs/out`, for hosts with no Node.js server. The docs
+app must stay fully static: no route handlers, server actions, or request-time rendering.
