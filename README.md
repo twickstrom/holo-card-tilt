@@ -1,5 +1,15 @@
 # holo-card-tilt
 
+[![npm version](https://img.shields.io/npm/v/holo-card-tilt?style=flat-square&color=black)](https://www.npmjs.com/package/holo-card-tilt)
+[![tests](https://img.shields.io/github/actions/workflow/status/twickstrom/holo-card-tilt/ci.yml?branch=main&style=flat-square&label=tests)](https://github.com/twickstrom/holo-card-tilt/actions/workflows/ci.yml)
+[![types](https://img.shields.io/npm/types/holo-card-tilt?style=flat-square)](https://www.npmjs.com/package/holo-card-tilt)
+[![license](https://img.shields.io/npm/l/holo-card-tilt?style=flat-square&color=black)](./LICENSE)
+
+![React 19](https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![Next.js 16](https://img.shields.io/badge/Next.js_16-000000?style=flat-square&logo=next.js&logoColor=white)
+![Tailwind v4](https://img.shields.io/badge/Tailwind_v4-06B6D4?style=flat-square&logo=tailwind-css&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+
 A tilt, glare, and shadow hover effect for React 19 and Next.js 16, built to
 [HeroUI v3](https://heroui.com) conventions.
 
