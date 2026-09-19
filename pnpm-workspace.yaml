@@ -2,8 +2,6 @@ packages:
   - "packages/*"
   - "apps/*"
 onlyBuiltDependencies:
-  - "@heroui-pro/react"
   - esbuild
-  - heroui-pro
   - sharp
   - unrs-resolver

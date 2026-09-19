@@ -5,13 +5,17 @@ Published to npm as `holo-card-tilt`. The exported component is `HoloCardTilt`.
 
 ## Repository layout
 
-| Path                      | Contents                                                                       |
-| ------------------------- | ------------------------------------------------------------------------------ |
-| `packages/holo-card-tilt` | The library. The only published package.                                       |
-| `apps/demo`               | Next.js 16 playground on port 3000. Builds from public packages only.          |
-| `apps/docs`               | Next.js 16 documentation site on port 3001. Uses licensed `@heroui-pro/react`. |
+| Path                      | Contents                                                              |
+| ------------------------- | --------------------------------------------------------------------- |
+| `packages/holo-card-tilt` | The library. The only published package.                              |
+| `apps/demo`               | Next.js 16 playground on port 3000. Builds from public packages only. |
 
-pnpm workspace. Node.js 20.9 or later, pnpm 9.
+pnpm workspace. Node.js 20.9 or later, pnpm 9. Every dependency is public, so `pnpm install` needs
+no license or token.
+
+The documentation and live examples are published at
+https://timwickstrom.com/projects/holo-card-tilt and maintained in the author's blog repository,
+not here.
 
 ## Commands
 
@@ -25,18 +29,14 @@ pnpm typecheck    # every workspace
 pnpm lint         # prettier --check
 pnpm format       # prettier --write
 pnpm dev:demo     # library watch + playground, http://localhost:3000
-pnpm dev:docs     # library watch + docs, http://localhost:3001
-pnpm build:all    # library, then both apps
+pnpm build:all    # library, then the demo
 ```
 
-The apps consume the library from `packages/holo-card-tilt/dist`. Rebuild the library after changing
-it, or run one of the `dev:*` scripts, which keep it building in watch mode.
+The demo consumes the library from `packages/holo-card-tilt/dist`. Rebuild the library after
+changing it, or run `pnpm dev:demo`, which keeps it building in watch mode.
 
-`apps/docs` installs `@heroui-pro/react`. Locally that needs `npx heroui-pro@latest login`; in CI and
-on Vercel it needs `HEROUI_AUTH_TOKEN`. Without a license, install with `pnpm install --filter "!docs"`.
-
-Before finishing a change: `pnpm format`, `pnpm lint`, `pnpm test`, `pnpm build`, and build any app
-the change touches.
+Before finishing a change: `pnpm format`, `pnpm lint`, `pnpm test`, `pnpm build`, and
+`pnpm --filter demo build` when the change touches the demo.
 
 ## Using the component
 
@@ -134,9 +134,8 @@ Changes must preserve these.
   styles override them. Component styles stay in `@layer components`.
 - Code style: Prettier (`printWidth` 100, no bracket spacing), strict TypeScript with
   `noUncheckedIndexedAccess`. Comments explain why, not what.
-- In the apps, look up HeroUI component APIs before using them; HeroUI v3 uses `onPress`, compound
-  anatomy, and specific value shapes. `apps/demo` may use only `@heroui/react`. `apps/docs` may also
-  use `@heroui-pro/react`.
+- In `apps/demo`, look up HeroUI component APIs before using them; HeroUI v3 uses `onPress`,
+  compound anatomy, and specific value shapes. The demo may use only `@heroui/react`.
 
 ## Licensing and attribution
 
@@ -149,12 +148,12 @@ Changes must preserve these.
 - `@heroui-pro/react` is proprietary. Never copy its source or CSS into this repository. Follow its
   conventions only.
 - `.claude/` and `.agents/` hold licensed HeroUI Pro skills and are gitignored. Never commit them.
-  Never commit tokens; `HEROUI_AUTH_TOKEN` and `NPM_TOKEN` live in CI secrets.
+  Never commit tokens; `NPM_TOKEN` lives in CI secrets.
 
 ## Documentation voice
 
-READMEs, the docs site, and code comments speak in the project's voice and describe the subject.
-They do not describe how the work was done, assess their own quality, or address a reviewer.
+READMEs and code comments speak in the project's voice and describe the subject. They do not
+describe how the work was done, assess their own quality, or address a reviewer.
 
 ## Releasing
 
@@ -164,14 +163,3 @@ They do not describe how the work was done, assess their own quality, or address
 
 A manual release is `pnpm --filter holo-card-tilt publish --access public`. `prepack` copies
 `LICENSE` and `NOTICE` into the package, builds, and runs `publint`.
-
-## Deploying the docs
-
-Vercel project with Root Directory `apps/docs`, Install Command `pnpm install`, Build Command
-`cd ../.. && pnpm build && pnpm --filter docs build`, and the `HEROUI_AUTH_TOKEN` environment
-variable.
-
-The site is published at https://timwickstrom.com/projects/holo-card-tilt. `DOCS_BASE_PATH` sets the
-Next.js `basePath`; it is `/projects/holo-card-tilt` in production and unset locally. `DOCS_EXPORT=1`
-switches the build to a static export in `apps/docs/out`, for hosts with no Node.js server. The docs
-app must stay fully static: no route handlers, server actions, or request-time rendering.

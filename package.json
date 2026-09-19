@@ -8,10 +8,9 @@
   },
   "scripts": {
     "build": "pnpm --filter holo-card-tilt build",
-    "build:all": "pnpm build && pnpm --filter \"./apps/*\" build",
+    "build:all": "pnpm build && pnpm --filter demo build",
     "dev": "pnpm --filter holo-card-tilt dev",
     "dev:demo": "pnpm build && pnpm --parallel --filter holo-card-tilt --filter demo dev",
-    "dev:docs": "pnpm build && pnpm --parallel --filter holo-card-tilt --filter docs dev",
     "test": "pnpm --filter holo-card-tilt test",
     "typecheck": "pnpm -r typecheck",
     "format": "prettier --write .",
